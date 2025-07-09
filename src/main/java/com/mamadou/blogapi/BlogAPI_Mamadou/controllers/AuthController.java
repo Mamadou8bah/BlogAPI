@@ -43,4 +43,21 @@ public class AuthController {
         }
         return ResponseEntity.ok(user);
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteMyAccount() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
+
+        String email = authentication.getName();
+        try {
+            userService.deleteUserByEmail(email);
+            return ResponseEntity.ok("Account deleted successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

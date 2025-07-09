@@ -43,4 +43,12 @@ public class UserService {
     public User findByEmail(String email) {
         return repo.findByEmail(email);
     }
+    public void deleteUserByEmail(String email) {
+        User user = repo.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        repo.delete(user);
+    }
+
 }
