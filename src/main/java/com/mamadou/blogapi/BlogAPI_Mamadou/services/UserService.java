@@ -27,16 +27,16 @@ public class UserService {
     }
 
     public String login(String email, String rawPassword) {
-        Optional<User> user = repo.findByEmail(email);
-        if (user.isEmpty()) {
+        User user = repo.findByEmail(email);
+        if (user==null) {
             throw new RuntimeException("User not found");
         }
 
-        if (!bCryptPasswordEncoder.matches(rawPassword, user.get().getPassword())) {
+        if (!bCryptPasswordEncoder.matches(rawPassword, user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
         // Generate JWT token
-        return jwtUtil.generateToken(user.get().getEmail());
+        return jwtUtil.generateToken(user.getEmail());
     }
 }
