@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -31,9 +32,14 @@ public class PostService {
         return repo.findById(id).orElseThrow(()->new RuntimeException("Could not find post"));
     }
 
-    public Post deletePost(int id){
-        Post post=repo.findById(id).orElseThrow(()->new RuntimeException("Could not find post"));
-        repo.delete(post);
-        return post;
+    public boolean deletePost(int id) {
+        Optional<Post> post = repo.findById(id);
+        if (post.isPresent()) {
+            repo.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
+
 }
