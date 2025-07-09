@@ -41,5 +41,35 @@ public class Like {
         this.likedAt = LocalDateTime.now();
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public LocalDateTime getLikedAt() {
+        return likedAt;
+    }
+
+    public void setLikedAt(LocalDateTime likedAt) {
+        this.likedAt = likedAt;
+    }
 }
