@@ -39,4 +39,8 @@ public class UserService {
         // Generate JWT token
         return jwtUtil.generateToken(user.getEmail());
     }
+
+    public User findByEmail(String email) {
+        return repo.findByEmail(email);
+    }
 }
