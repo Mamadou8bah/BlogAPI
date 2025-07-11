@@ -34,21 +34,20 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String username = null;
         String jwt = null;
 
-        // Check header presence and format
+
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            jwt = authHeader.substring(7); // Extract token after "Bearer "
+            jwt = authHeader.substring(7);
             try {
                 username = jwtUtil.extractUsername(jwt);
             } catch (Exception e) {
-                // Invalid token, can log here
+
             }
         }
 
-        // If username is extracted and no authentication is set yet
+
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-            // Validate token (checks signature and expiration)
             if (jwtUtil.isTokenValid(jwt)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
@@ -60,12 +59,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
 
-                // Set authentication in the SecurityContext
+
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
 
-        // Continue the filter chain
+
         filterChain.doFilter(request, response);
     }
 }
